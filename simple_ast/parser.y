@@ -30,6 +30,7 @@ extern void yyerror(const char* s, ...);
  * The latest it is listed, the highest the precedence
  */
 %left T_PLUS
+%nonassoc error
 
 /* Starting rule 
  */
