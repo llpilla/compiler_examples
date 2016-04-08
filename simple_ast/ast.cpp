@@ -1,6 +1,9 @@
 #include "ast.h"
+#include "st.h"
 
 using namespace AST;
+
+extern ST::SymbolTable symtab;
 
 /* Print methods */
 void Integer::printTree(){
@@ -11,7 +14,9 @@ void Integer::printTree(){
 void BinOp::printTree(){
     left->printTree();
     switch(op){
-        case plus: std::cout << " + ";
+        case plus: std::cout << " + "; break;
+        case times: std::cout << " * "; break;
+        case assign: std::cout << " = "; break;
     }
     right->printTree();
     return;
@@ -24,6 +29,14 @@ void Block::printTree(){
     }
 }
 
+void Variable::printTree(){
+    if (next != NULL){
+        next->printTree();
+        std::cout << ", ";
+    }
+    std::cout << id;
+}
+
 /* Compute methods */
 int Integer::computeTree(){
     return value;
@@ -34,7 +47,12 @@ int BinOp::computeTree(){
     lvalue = left->computeTree();
     rvalue = right->computeTree();
     switch(op){
-         case plus: value = lvalue + rvalue;
+        case plus: value = lvalue + rvalue; break;
+        case times: value = lvalue * rvalue; break;
+        case assign:
+            Variable* leftvar = dynamic_cast<Variable*>(left);
+            symtab.entryList[leftvar->id].value = rvalue;
+            value = rvalue;
     }
     return value;
 }
@@ -46,4 +64,8 @@ int Block::computeTree(){
          std::cout << "Computed " << value << std::endl;
     }
     return 0;
+}
+
+int Variable::computeTree(){
+    return symtab.entryList[id].value;
 }

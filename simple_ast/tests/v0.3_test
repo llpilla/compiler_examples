@@ -1,0 +1,4 @@
+def abra, kadabra
+abra = 1+2*2
+kadabra = abra*abra+abra
+kadabra + 2
