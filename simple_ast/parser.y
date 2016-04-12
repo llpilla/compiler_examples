@@ -49,8 +49,9 @@ extern void yyerror(const char* s, ...);
 program : lines { programRoot = $1; }
         ;
 
-lines   : line { $$ = new AST::Block(); $$->lines.push_back($1); }
+lines   : line { $$ = new AST::Block(); if($1 != NULL) $$->lines.push_back($1); }
         | lines line { if($2 != NULL) $1->lines.push_back($2); }
+        | lines error T_NL { yyerrok; }
         ;
 
 line    : T_NL { $$ = NULL; } /*nothing here to be used */
@@ -64,7 +65,6 @@ expr    : T_INT { $$ = new AST::Integer($1); }
         | T_ID { $$ = symtab.useVariable($1); }
         | expr T_PLUS expr { $$ = new AST::BinOp($1,AST::plus,$3); }
         | expr T_TIMES expr { $$ = new AST::BinOp($1,AST::times,$3); }
-        | expr error { yyerrok; $$ = $1; } /*just a point for error recovery*/
         ;
 
 varlist : T_ID { $$ = symtab.newVariable($1, NULL); }

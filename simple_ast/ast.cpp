@@ -50,6 +50,7 @@ int BinOp::computeTree(){
         case plus: value = lvalue + rvalue; break;
         case times: value = lvalue * rvalue; break;
         case assign:
+            //assignments require data from the symbol table
             Variable* leftvar = dynamic_cast<Variable*>(left);
             symtab.entryList[leftvar->id].value = rvalue;
             value = rvalue;
@@ -67,5 +68,6 @@ int Block::computeTree(){
 }
 
 int Variable::computeTree(){
+    //the value of a variable is currently stored in the symbol table
     return symtab.entryList[id].value;
 }
