@@ -1,0 +1,12 @@
+Declaracao de variavel booleana: var
+Atribuicao de valor para variavel booleana var: valor booleano TRUE
+Atribuicao de valor para variavel booleana var: valor booleano FALSE
+Atribuicao de valor para variavel booleana var: ((nao booleano) variavel booleana var)
+Atribuicao de valor para variavel booleana var: (variavel booleana var (e booleano) variavel booleana var)
+Atribuicao de valor para variavel booleana var: (variavel booleana var (ou booleano) variavel booleana var)
+Atribuicao de valor para variavel booleana var: (valor inteiro 1 (igual booleano) valor inteiro 7)
+Atribuicao de valor para variavel booleana var: (valor real 2.0 (diferente booleano) valor real 8.0)
+Atribuicao de valor para variavel booleana var: (valor inteiro 3 (menor booleano) valor inteiro 9)
+Atribuicao de valor para variavel booleana var: (valor inteiro 4 (maior booleano) valor inteiro 10)
+Atribuicao de valor para variavel booleana var: (valor inteiro 5 (menor ou igual booleano) valor inteiro 11)
+Atribuicao de valor para variavel booleana var: (valor inteiro 6 (maior ou igual booleano) valor inteiro 12)

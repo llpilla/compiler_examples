@@ -1,0 +1,13 @@
+int: avestruz, burro, cachorro;
+real: dragao, elefante;
+bool: foca, golfinho;
+
+avestruz:= 1 + 3 / 5;
+burro:= avestruz - 100;
+cachorro:= -(burro);
+
+dragao:= 10.0 - (2. + .7);
+elefante:= - avestruz;
+
+foca:= TRUE AND avestruz <= burro;
+golfinho:= ~ (5 > elefante);

@@ -1,0 +1,4 @@
+Declaracao de variavel booleana: true
+Atribuicao de valor para variavel desconhecida var: (valor real 1.0 (multiplicacao inteira) variavel desconhecida myvar)
+Atribuicao de valor para variavel booleana true: (valor booleano FALSE (soma inteira) valor inteiro 3)
+Atribuicao de valor para variavel booleana true: (variavel booleana true (ou booleano) valor real 4.0)

@@ -1,0 +1,13 @@
+bool : var;
+
+var:= TRUE;
+var:= FALSE;
+var:= ~var;
+var:= var AND var;
+var:= var OR var;
+var:= 1 = 7;
+var:= 2.0 ~= 8.0;
+var:= 3 < 9;
+var:= 4 > 10;
+var:= 5 <= 11;
+var:= 6 >= 12;

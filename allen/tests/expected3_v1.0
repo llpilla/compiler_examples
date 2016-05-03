@@ -1,0 +1,11 @@
+Declaracao de variavel inteira: var
+Declaracao de variavel real: other
+Atribuicao de valor para variavel inteira var: valor inteiro 1
+Atribuicao de valor para variavel inteira var: ((menos unario inteiro) variavel inteira var)
+Atribuicao de valor para variavel inteira var: ((valor inteiro 2 (soma inteira) ((valor inteiro 3 (multiplicacao inteira) valor inteiro 4) (divisao inteira) valor inteiro 5)) (subtracao inteira) valor inteiro 6)
+Atribuicao de valor para variavel inteira var: (((((abre parenteses) (valor inteiro 2 (soma inteira) valor inteiro 3) (fecha parenteses)) (multiplicacao inteira) valor inteiro 4) (divisao inteira) valor inteiro 5) (subtracao inteira) valor inteiro 6)
+Atribuicao de valor para variavel real other: valor real 0.
+Atribuicao de valor para variavel real other: valor real .000000
+Atribuicao de valor para variavel real other: valor real 0.0
+Atribuicao de valor para variavel real other: (((valor real 6.0 (multiplicacao real) ((abre parenteses) (valor real 7.0 (soma real) valor real 8.0) (fecha parenteses))) (divisao real) valor real 9.0) (subtracao real) valor real 10.0)
+Atribuicao de valor para variavel real other: (((valor inteiro 6 (multiplicacao inteira) ((abre parenteses) (valor inteiro 7 (soma inteira) valor inteiro 8) (fecha parenteses))) (divisao inteira) valor inteiro 9) (subtracao inteira) valor inteiro 10) para real

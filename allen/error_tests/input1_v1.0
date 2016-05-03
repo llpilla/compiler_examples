@@ -1,0 +1,10 @@
+int a;
+int: int;
+bool: A;
+bool: true;
+real:= 2.0;
+
+    var:= 1.0 * myvar;
+    true:= FALSE + 3;
+    true:= true OR 4.0;
+

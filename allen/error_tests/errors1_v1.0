@@ -1,0 +1,13 @@
+[Linha 1] Erro syntax error
+[Linha 2] Erro syntax error
+[Linha 3] Erro lexico: simbolo desconhecido: A.
+[Linha 3] Erro syntax error
+[Linha 5] Erro syntax error
+[Linha 7] Erro semantico: variavel var nao declarada.
+[Linha 7] Erro semantico: variavel myvar nao declarada.
+[Linha 7] Erro semantico: variavel myvar nao inicializada.
+[Linha 7] Erro semantico: operacao multiplicacao espera inteiro ou real mas recebeu desconhecido.
+[Linha 7] Erro semantico: operacao atribuicao espera desconhecido mas recebeu inteiro.
+[Linha 8] Erro semantico: operacao soma espera inteiro ou real mas recebeu booleano.
+[Linha 8] Erro semantico: operacao atribuicao espera booleano mas recebeu inteiro.
+[Linha 9] Erro semantico: operacao ou espera booleano mas recebeu real.

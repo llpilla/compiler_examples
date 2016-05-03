@@ -1,0 +1,10 @@
+Declaracao de variavel inteira: avestruz, burro, cachorro
+Declaracao de variavel real: dragao, elefante
+Declaracao de variavel booleana: foca, golfinho
+Atribuicao de valor para variavel inteira avestruz: (valor inteiro 1 (soma inteira) (valor inteiro 3 (divisao inteira) valor inteiro 5))
+Atribuicao de valor para variavel inteira burro: (variavel inteira avestruz (subtracao inteira) valor inteiro 100)
+Atribuicao de valor para variavel inteira cachorro: ((menos unario inteiro) ((abre parenteses) variavel inteira burro (fecha parenteses)))
+Atribuicao de valor para variavel real dragao: (valor real 10.0 (subtracao real) ((abre parenteses) (valor real 2. (soma real) valor real .7) (fecha parenteses)))
+Atribuicao de valor para variavel real elefante: ((menos unario inteiro) variavel inteira avestruz) para real
+Atribuicao de valor para variavel booleana foca: (valor booleano TRUE (e booleano) (variavel inteira avestruz (menor ou igual booleano) variavel inteira burro))
+Atribuicao de valor para variavel booleana golfinho: ((nao booleano) ((abre parenteses) (valor inteiro 5 para real (maior booleano) variavel real elefante) (fecha parenteses)))
