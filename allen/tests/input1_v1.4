@@ -1,0 +1,19 @@
+int   :i,tamanho;
+real[10]: a;
+real: total;
+
+i:= 0;
+tamanho:= 10;
+
+while (i < tamanho) do 
+    real: temp;
+    temp:= tamanho*10.0 -i;
+    a[i]:= temp; 
+    i:= i + 1;
+end while
+
+i:= tamanho - 1;
+total:= 0.0;
+
+while i >= 0 do total:= total + a[i]; i:= i - 1; end while
+
