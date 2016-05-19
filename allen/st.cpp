@@ -16,7 +16,7 @@ AST::Node* SymbolTable::newVariable(std::string id, Types::Type type){
 AST::Node* SymbolTable::assignVariable(std::string id){
     Types::Type varType;
     if ( ! checkId(id) ) {
-        yyerror("semantico: variavel %s nao declarada.", id.c_str());
+        yyerror("semantico: variavel %s sem declaracao.", id.c_str());
         varType = Types::unknown;
     } else {
         varType = entryList[id].type;
@@ -28,7 +28,7 @@ AST::Node* SymbolTable::assignVariable(std::string id){
 AST::Node* SymbolTable::useVariable(std::string id){
     Types::Type varType;
     if ( ! checkId(id) ) {
-        yyerror("semantico: variavel %s nao declarada.", id.c_str());
+        yyerror("semantico: variavel %s sem declaracao.", id.c_str());
         varType = Types::unknown;
     } else {
         varType = entryList[id].type;
