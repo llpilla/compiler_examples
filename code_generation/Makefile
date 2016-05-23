@@ -8,12 +8,12 @@ SYN=./syntax
 FLEX=flex
 BISON=bison
 CC=clang++
-PARAM=-std=c++11 -fcxx-exceptions -Wno-deprecated-register 
-LLVMLIB=`llvm-config --ldflags --libs core`
+PARAM=-std=c++11 -fcxx-exceptions -Wno-deprecated-register
+LLVMLIB=`llvm-config --ldflags --libs core` 
 LLVMPARAM=`llvm-config --cppflags`
 OUTPUT=mycompiler
 
-compiler: $(OBJ)/printer.o $(OBJ)/codegen.o $(OBJ)/parser.o $(OBJ)/scanner.o $(OBJ)/main.o
+$(OUTPUT): $(OBJ)/printer.o $(OBJ)/codegen.o $(OBJ)/parser.o $(OBJ)/scanner.o $(OBJ)/main.o
 	${CC} -o $(OUTPUT) $(OBJ)/*.o -I$(INC) ${PARAM} ${LLVMLIB}
 
 $(OBJ)/main.o: $(SRC)/main.cpp $(INC)/ast.h
@@ -34,7 +34,7 @@ $(OBJ)/scanner.o: $(LEX)/scanner.l $(SYN)/parser.y $(INC)/ast.h
 	${CC} -c -o $(OBJ)/scanner.o $(SRC)/scanner.cpp -I$(INC) ${PARAM} ${LLVMPARAM}
 
 clean:
-	rm $(OBJ)/* $(SRC)/scanner.cpp $(SRC)/parser.cpp $(INC)/parser.h $(OUTPUT)
+	rm $(OBJ)/*.o $(SRC)/scanner.cpp $(SRC)/parser.cpp $(INC)/parser.h $(OUTPUT)
 
 
 

@@ -11,5 +11,7 @@ int main(int argc, char **argv)
     yyparse();                  //parses whole data
     std::cout << "##Printing the lines" << std::endl;
     programRoot->printTree();   //prints the ASTs
+    std::cout << "##Code generation" << std::endl;
+    programRoot->Codegen();
     return 0;
 }

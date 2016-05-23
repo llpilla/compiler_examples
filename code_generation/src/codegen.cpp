@@ -31,6 +31,7 @@ llvm::Value* Block::Codegen(){
     llvm::Value* value;
     for (Node* line: lines) {
         value = line->Codegen();
+        value->dump();
     }
     return value;
 }
