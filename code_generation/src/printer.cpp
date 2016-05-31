@@ -21,6 +21,10 @@ void BinOp::printTree(){
     return;
 }
 
+void Variable::printTree(){
+    std::cout << id;
+}
+
 void Block::printTree(){
     for (Node* line: lines) {
         line->printTree();

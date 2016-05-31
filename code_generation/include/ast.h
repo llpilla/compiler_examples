@@ -3,13 +3,7 @@
 
 #include <iostream>
 #include <vector>
-
-/*LLVM-related code*/
-#include "llvm/Analysis/Verifier.h"
-#include "llvm/IR/DerivedTypes.h"
-#include "llvm/IR/IRBuilder.h"
-#include "llvm/IR/LLVMContext.h"
-#include "llvm/IR/Module.h"
+#include "llvm-utils.h" /*LLVM-related code*/
 
 extern void yyerror(const char *s, ...);
 
@@ -44,6 +38,14 @@ class BinOp : public Node {
         Node *right;
         BinOp(Node *left, Operation op, Node *right) :
             left(left), right(right), op(op) { }
+        void printTree();
+        llvm::Value *Codegen();
+};
+
+class Variable : public Node {
+    public:
+        std::string id;
+        Variable(std::string id) : id(id) { }
         void printTree();
         llvm::Value *Codegen();
 };

@@ -9,15 +9,18 @@ void yyerror(const char* s, ...);
 %option noyywrap nodefault yylineno
 
 digs [0-9]+
-chars [a-z]+
+chars [a-zA-Z_]+
 
 %%
 
 [ \t]               ; //ignores spaces
-{digs}              {yylval.integer = std::atoi(yytext); return T_INT;}
-"+"                 {return T_PLUS;}
-"*"                 {return T_TIMES;}
-\n                  {return T_NL;}
+{digs}              {yylval.integer = std::atoi(yytext); return INT;}
+"+"                 {return PLUS;}
+"*"                 {return TIMES;}
+int                 {return TYPE_INT;}
+=                   {return ASSIGN;}
+\n                  {return NL;}
+{chars}             {yylval.name = strdup(yytext); return ID;}
 .                   {yyerror("Unknown token! %c\n", *yytext);} /*complains about every unknown character*/
 
 %%
