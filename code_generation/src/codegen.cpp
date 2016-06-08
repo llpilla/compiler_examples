@@ -5,55 +5,69 @@
 extern SymTab::SymbolTable symbolTable;
 
 using namespace AST;
+using namespace llvm;
 
 /* Code generation methods */
 
 /* Constant: LLVM keeps constants 'uniqued' together */
-llvm::Value* Integer::Codegen(){
-    return llvm::ConstantInt::get(llvm::getGlobalContext(), llvm::APInt(64,value));
+void Integer::codeGen(){
+    if(code == NULL) //generates code if we have none
+        code = ConstantInt::get(IR::Context, APInt(64,value));
+    code->dump();
 }
 
 /* Binary operation: we add to the basic block an instruction using
  * the code generated for the left and right hand sides */
-llvm::Value* BinOp::Codegen(){
-    if (op == assign){
-        /*Assignments are a different beast.
-         * They require storing a value on a variable on the left side*/
-        Variable* lvar = dynamic_cast<Variable *>(left);
-        llvm::AllocaInst* inst = symbolTable.useVariable(lvar->id); /*gets left side*/
-        llvm::Value* rvalue = right->Codegen(); /*gets right side*/
-        return Builder.CreateStore(rvalue,inst); /*stores the value*/
+void BinOp::codeGen(){
+    if (code == NULL) { //generates code if we have none
+        if (op == assign){
+            std::cout << "Generating assignment" << std::endl;
+            /*Assignments are a different beast.
+             * They require storing a code on a variable on the left side*/
+            Variable* lvar = dynamic_cast<Variable *>(left);
+            auto tmp = symbolTable.useVariable(lvar->id); /*gets left side*/
+            std::cout << "printing temp" << std::endl;
+            tmp->dump();
+            right->codeGen(); /*gets right side*/
+            auto tmpStore = IR::Builder.CreateStore(right->code, tmp); /*stores the code*/
+            tmpStore->dump();
+            code = right->code;
+        }
+        else {
+            /*Usual binary operations: get both sides and generate an instruction*/
+            left->codeGen();
+            right->codeGen();
+            switch(op){
+                case plus:
+                    code = IR::Builder.CreateAdd(left->code, right->code, "addtmp");
+                    break;
+                case times:
+                    code = IR::Builder.CreateMul(left->code, right->code, "multmp");
+                    break;
+                default:
+                    code = NULL;
+                    break;
+            }
+        }
     }
-
-    /*Usual binary operations: get both sides and generate an instruction*/
-    llvm::Value* lvalue = left->Codegen();
-    llvm::Value* rvalue = right->Codegen();
-    switch(op){
-        case plus: return Builder.CreateAdd(lvalue, rvalue, "addtmp");
-        case times: return Builder.CreateMul(lvalue, rvalue, "multmp");
-        default: return Builder.CreateAdd(lvalue, rvalue, "addtmp");
-    }
+    code->dump();
 }
 
 /* Variable: */
-llvm::Value* Variable::Codegen(){
-    /*First we get the allocation from the variable declaration*/
-    std::cout << "Checking " << id << std::endl;
-    llvm::Value* value = symbolTable.useVariable(id);
-    std::cout << "Checking " << id << std::endl;
-    /*Then we load from there*/
-    if (value == 0) std::cout << "Panic";
-    return Builder.CreateLoad(value, id.c_str());
+void Variable::codeGen(){
+    if (code == NULL){ //generates code if we have none
+        /*First we get the allocation from the variable declaration*/
+        auto tmp = symbolTable.useVariable(id);
+        /*Then we load from there*/
+        code = IR::Builder.CreateLoad(tmp, "tmp");
+    }
+    code->dump();
 }
 
-/* Block: we generate the code for all lines of high level code */
-llvm::Value* Block::Codegen(){
 
-    llvm::Value* value;
+/* Block: we generate the code for all lines of high level code */
+void Block::codeGen(){
     for (Node* line: lines) {
-        std::cout << "Generating block" << std::endl;
-        value = line->Codegen();
-        value->dump();
+        if (line->code != NULL) line->code->dump();
     }
-    return value;
 }

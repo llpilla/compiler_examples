@@ -20,15 +20,16 @@ class Node {
     public:
         virtual ~Node() {}
         virtual void printTree(){}
-        virtual llvm::Value *Codegen() = 0;
+        virtual void codeGen() = 0;
+        llvm::Value* code;
 };
 
 class Integer : public Node {
     public:
         int value;
-        Integer(int value) : value(value) {  }
+        Integer(int value) : value(value) { }
         void printTree();
-        llvm::Value *Codegen();
+        void codeGen();
 };
 
 class BinOp : public Node {
@@ -37,9 +38,9 @@ class BinOp : public Node {
         Node *left;
         Node *right;
         BinOp(Node *left, Operation op, Node *right) :
-            left(left), right(right), op(op) { }
+            left(left), right(right), op(op) { codeGen(); }
         void printTree();
-        llvm::Value *Codegen();
+        void codeGen();
 };
 
 class Variable : public Node {
@@ -47,7 +48,7 @@ class Variable : public Node {
         std::string id;
         Variable(std::string id) : id(id) { }
         void printTree();
-        llvm::Value *Codegen();
+        void codeGen();
 };
 
 class Block : public Node {
@@ -55,7 +56,7 @@ class Block : public Node {
         NodeList lines;
         Block() { }
         void printTree();
-        llvm::Value *Codegen();
+        void codeGen();
 };
 
 }

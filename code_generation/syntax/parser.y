@@ -17,6 +17,7 @@ extern void yyerror(const char* s, ...);
     AST::Node *node;
     AST::Block *block;
     const char *name;
+    void* novalue;
 }
 
 /* token defines our terminal symbols (tokens).
@@ -29,15 +30,15 @@ extern void yyerror(const char* s, ...);
  * Types should match the names used in the union.
  * Example: %type<node> expr
  */
-%type <node> expr line /*varlist*/
+%type <node> expr line endline /*varlist*/
 %type <block> lines program
+%type <novalue> startcode
 
 /* Operator precedence for mathematical operators
  * The latest it is listed, the highest the precedence
  */
 %left T_PLUS
 %left T_TIMES
-%nonassoc error
 
 /* Starting rule 
  */
@@ -45,12 +46,16 @@ extern void yyerror(const char* s, ...);
 
 %%
 
-program : lines { programRoot = $1; }
+program : startcode lines endline { $2->lines.push_back($3); programRoot = $2; }
         ;
 
+startcode : { IR::codeGenSetup(); }
+          ;
+
+endline : ID NL { $$ = new AST::Variable($1); IR::codeGenEnd(symbolTable.useVariable($1)); }
+
 lines   : line { $$ = new AST::Block(); if($1 != NULL) $$->lines.push_back($1); }
-        | lines line { if($2 != NULL) $1->lines.push_back($2); }
-        | lines error NL { yyerrok; }
+        | lines line { if($2 != NULL) $1->lines.push_back($2); $$ = $1; }
         ;
 
 line    : NL { $$ = NULL; } /*nothing here to be used */

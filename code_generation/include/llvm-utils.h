@@ -13,6 +13,19 @@
 #include "llvm/Transforms/Scalar.h"
 
 /* LLVM support objects */
-static llvm::Module *TheModule;
-static llvm::IRBuilder<> Builder(llvm::getGlobalContext());
+using namespace llvm;
+
+namespace IR {
+
+    static Module *OurModule;
+    static LLVMContext &Context = llvm::getGlobalContext();
+    static IRBuilder<> Builder(Context);
+    static Type* intType = Type::getInt64Ty(Context);
+    static BasicBlock* mainBB;
+    static Function* ourMain;
+
+    void codeGenSetup();
+    void codeGenEnd(AllocaInst* endvalue);
+
+}
 

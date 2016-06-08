@@ -13,7 +13,7 @@ LLVMLIB=`llvm-config --ldflags --libs core native`
 LLVMPARAM=`llvm-config --cppflags`
 OUTPUT=mycompiler
 
-$(OUTPUT): $(OBJ)/printer.o $(OBJ)/codegen.o $(OBJ)/parser.o $(OBJ)/scanner.o $(OBJ)/main.o $(OBJ)/symtab.o
+$(OUTPUT): $(OBJ)/printer.o $(OBJ)/codegen.o $(OBJ)/parser.o $(OBJ)/scanner.o $(OBJ)/main.o $(OBJ)/symtab.o $(OBJ)/llvm-utils.o
 	${CC} -o $(OUTPUT) $(OBJ)/*.o -I$(INC) ${PARAM} ${LLVMLIB}
 
 $(OBJ)/main.o: $(SRC)/main.cpp $(INC)/ast.h $(INC)/llvm-utils.h
@@ -27,6 +27,9 @@ $(OBJ)/codegen.o: $(SRC)/codegen.cpp $(INC)/ast.h $(INC)/llvm-utils.h
 
 $(OBJ)/symtab.o: $(SRC)/symtab.cpp $(INC)/llvm-utils.h $(INC)/symtab.h
 	${CC} -c -o $(OBJ)/symtab.o $(SRC)/symtab.cpp -I$(INC) ${PARAM} ${LLVMPARAM}
+
+$(OBJ)/llvm-utils.o: $(SRC)/llvm-utils.cpp $(INC)/llvm-utils.h
+	${CC} -c -o $(OBJ)/llvm-utils.o $(SRC)/llvm-utils.cpp -I$(INC) ${PARAM} ${LLVMPARAM}
 
 $(OBJ)/parser.o: $(SYN)/parser.y $(INC)/ast.h $(INC)/symtab.h
 	${BISON} --defines=$(INC)/parser.h --output=$(SRC)/parser.cpp $(SYN)/parser.y
