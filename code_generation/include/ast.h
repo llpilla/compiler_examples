@@ -27,7 +27,7 @@ class Node {
 class Integer : public Node {
     public:
         int value;
-        Integer(int value) : value(value) { }
+        Integer(int value) : value(value) { codeGen(); }
         void printTree();
         void codeGen();
 };
@@ -46,7 +46,7 @@ class BinOp : public Node {
 class Variable : public Node {
     public:
         std::string id;
-        Variable(std::string id) : id(id) { }
+        Variable(std::string id) : id(id) { codeGen(); }
         void printTree();
         void codeGen();
 };

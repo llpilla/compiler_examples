@@ -63,8 +63,8 @@ lines   : line { $$ = new AST::Block(); if($1 != NULL) $$->lines.push_back($1); 
 /* line: A line of code can declare a variable, give the result of an expression, or give a new value to a variable */
 line    : NL { $$ = NULL; } /*nothing here to be used */
         | expr NL /*$$ = $1 when nothing is said*/
-        | TYPE_INT ID { $$ = new AST::Variable($2); /*Creates the AST node*/
-                        symbolTable.createVariable($2); /*Makes it exist in the symbol table*/ }
+        | TYPE_INT ID { symbolTable.createVariable($2); /*Makes it exist in the symbol table*/ 
+                        $$ = new AST::Variable($2); /*Creates the AST node*/ }
         | ID ASSIGN expr { $$ = new AST::BinOp(new AST::Variable($1),AST::assign,$3); /*The assignment updates the symbol table with the new value of a variable*/ }
         ;
 
