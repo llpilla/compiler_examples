@@ -11,9 +11,9 @@ using namespace llvm;
 
 /* Constant: LLVM keeps constants 'uniqued' together */
 void Integer::codeGen(){
-    if(code == NULL) //generates code if we have none
+    if(code == NULL) //Generates code if we have none. We only do it when we have an expression or assignment
         code = ConstantInt::get(IR::Context, APInt(64,value));
-    code->dump();
+    //code->dump(); //if curious about the generated IR
 }
 
 /* Binary operation: we add to the basic block an instruction using
@@ -21,17 +21,11 @@ void Integer::codeGen(){
 void BinOp::codeGen(){
     if (code == NULL) { //generates code if we have none
         if (op == assign){
-            std::cout << "Generating assignment" << std::endl;
-            /*Assignments are a different beast.
-             * They require storing a code on a variable on the left side*/
+            /*Assignments use the name of the variable and update the symbol table.*/
             Variable* lvar = dynamic_cast<Variable *>(left);
-            auto tmp = symbolTable.useVariable(lvar->id); /*gets left side*/
-            std::cout << "printing temp" << std::endl;
-            tmp->dump();
             right->codeGen(); /*gets right side*/
-            auto tmpStore = IR::Builder.CreateStore(right->code, tmp); /*stores the code*/
-            tmpStore->dump();
-            code = right->code;
+            code = IR::Builder.CreateAdd(right->code, IR::Zero, lvar->id.c_str()); /*'copies' the value to the variable*/
+            symbolTable.updateVariable(lvar->id, code); /*Gives the new code and value to the variable in the symbol table.*/
         }
         else {
             /*Usual binary operations: get both sides and generate an instruction*/
@@ -45,29 +39,26 @@ void BinOp::codeGen(){
                     code = IR::Builder.CreateMul(left->code, right->code, "multmp");
                     break;
                 default:
-                    code = NULL;
+                    code = NULL; //Not the greatest error capture, but okay for the example
                     break;
             }
         }
     }
-    code->dump();
+    //code->dump(); //if curious about the generated IR
 }
 
-/* Variable: */
+/* Variable: variables have their latest values in the symbol table, so we can get them from there */
 void Variable::codeGen(){
     if (code == NULL){ //generates code if we have none
-        /*First we get the allocation from the variable declaration*/
-        auto tmp = symbolTable.useVariable(id);
-        /*Then we load from there*/
-        code = IR::Builder.CreateLoad(tmp, "tmp");
+        code = symbolTable.useVariable(id);
     }
-    code->dump();
+    //code->dump(); //if curious about the generated IR
 }
 
 
-/* Block: we generate the code for all lines of high level code */
+/* Block: blocks are only used at the highest of levels in our code, so we have no code to generate */
 void Block::codeGen(){
-    for (Node* line: lines) {
-        if (line->code != NULL) line->code->dump();
-    }
+    //for (Node* line: lines) {
+    //    if (line->code != NULL) line->code->dump();
+    //}
 }

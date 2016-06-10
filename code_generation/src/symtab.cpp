@@ -10,19 +10,25 @@ bool SymbolTable::createVariable (std::string id){
         Symbol var(integer, variable);
         /* Adds symbol to symbol table */
         addSymbol(id, var);
-
-        /* Creates the memory allocation for the variable */
-        llvm::AllocaInst* inst = IR::Builder.CreateAlloca(IR::intType, 0, id.c_str());
-        allocations[id] = inst;
+        /* Zeroes the variable, so we have some IR code to get without worrying about the first time a variable receives a value */
+        allocations[id] = IR::Zero;
         return true;
     }
 }
 
-llvm::AllocaInst* SymbolTable::useVariable (std::string id){
-    if (! checkId(id) ) { //Variable never used
+llvm::Value* SymbolTable::useVariable (std::string id){
+    if (! checkId(id) ) { //Variable never declared
         std::cout << "Variable not declared: " << id.c_str() << std::endl;
         return NULL;
     } else {
-        return allocations[id];
+        return allocations[id]; //Gets its value
+    }
+}
+
+void SymbolTable::updateVariable (std::string id, llvm::Value * value){
+    if (! checkId(id) ) { //Variable never declared
+        std::cout << "Variable not declared: " << id.c_str() << std::endl;
+    } else {
+        allocations[id] = value; //Updates its value
     }
 }

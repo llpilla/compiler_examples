@@ -1,4 +1,5 @@
 #include "llvm-utils.h"
+#include <iostream>
 
 using namespace llvm;
 using namespace IR;
@@ -7,7 +8,6 @@ void IR::codeGenSetup(){
     //Starts module
     OurModule = new Module("Our first intermediary code compiler", Context);
     //Set up 'main'
-    //FunctionType* typeOfMain = FunctionType::get(Type::getVoidTy(Context),false);
     FunctionType* typeOfMain = FunctionType::get(intType,false);
     ourMain = Function::Create(typeOfMain,Function::ExternalLinkage, "compiler", OurModule);
     //Set up the initial basic block
@@ -16,11 +16,11 @@ void IR::codeGenSetup(){
 
 }
 //void codeGenEnd(Value* value){
-void IR::codeGenEnd(AllocaInst* endvalue){
-    auto value = Builder.CreateLoad(endvalue, "retval");
-    Builder.CreateRet(value);
-    //Builder.CreateRetVoid();
+void IR::codeGenEnd(Value* endvalue){
+    Builder.CreateRet(endvalue);
     verifyFunction(*ourMain);
+    std::cout << "####################\n";
     OurModule->dump();
+    std::cout << "####################\n";
 }
 

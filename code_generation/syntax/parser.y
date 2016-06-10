@@ -30,15 +30,15 @@ extern void yyerror(const char* s, ...);
  * Types should match the names used in the union.
  * Example: %type<node> expr
  */
-%type <node> expr line endline /*varlist*/
+%type <node> expr line /*varlist*/
 %type <block> lines program
 %type <novalue> startcode
 
 /* Operator precedence for mathematical operators
  * The latest it is listed, the highest the precedence
  */
-%left T_PLUS
-%left T_TIMES
+%left PLUS
+%left TIMES
 
 /* Starting rule 
  */
@@ -46,25 +46,30 @@ extern void yyerror(const char* s, ...);
 
 %%
 
-program : startcode lines endline { $2->lines.push_back($3); programRoot = $2; }
+/* program: The program returns the value of the last generated code */
+program : startcode lines { programRoot = $2; 
+                            IR::codeGenEnd($2->lines.back()->code); /*We are not taking care of empty codes*/}
         ;
 
+/* startcode: Only sets up the code generation environment */
 startcode : { IR::codeGenSetup(); }
           ;
 
-endline : ID NL { $$ = new AST::Variable($1); IR::codeGenEnd(symbolTable.useVariable($1)); }
-
+/* lines: Lines of code separated by new lines */
 lines   : line { $$ = new AST::Block(); if($1 != NULL) $$->lines.push_back($1); }
         | lines line { if($2 != NULL) $1->lines.push_back($2); $$ = $1; }
         ;
 
+/* line: A line of code can declare a variable, give the result of an expression, or give a new value to a variable */
 line    : NL { $$ = NULL; } /*nothing here to be used */
         | expr NL /*$$ = $1 when nothing is said*/
-        | TYPE_INT ID { $$ = new AST::Variable($2); symbolTable.createVariable($2); }
-        | ID ASSIGN expr { $$ = new AST::BinOp(new AST::Variable($1),AST::assign,$3); }
+        | TYPE_INT ID { $$ = new AST::Variable($2); /*Creates the AST node*/
+                        symbolTable.createVariable($2); /*Makes it exist in the symbol table*/ }
+        | ID ASSIGN expr { $$ = new AST::BinOp(new AST::Variable($1),AST::assign,$3); /*The assignment updates the symbol table with the new value of a variable*/ }
         ;
 
-expr    : INT { $$ = new AST::Integer($1); }
+/* expr: An expression can be an integer value, a variable, a sum or a multiplication */
+expr    : INT { $$ = new AST::Integer($1); /*Only creates the AST node. Does not touch the symbol table.*/ }
         | ID { $$ = new AST::Variable($1); } 
         | expr PLUS expr { $$ = new AST::BinOp($1,AST::plus,$3); }
         | expr TIMES expr { $$ = new AST::BinOp($1,AST::times,$3); }
