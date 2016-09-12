@@ -1,0 +1,11 @@
+int a(10)
+int i = 0
+int ref mypointer
+int ref pointers(2)
+mypointer = addr i
+i = ref mypointer + 1
+pointers(0) = mypointer
+pointers(1) = addr a(3)
+int ref ref doublepointer
+doublepointer = addr pointers(0)
+

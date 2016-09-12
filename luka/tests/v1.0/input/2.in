@@ -1,0 +1,6 @@
+int i, j = 2
+int ref ip, jp
+ip = addr i
+jp = addr j
+ref ip = ref jp
+

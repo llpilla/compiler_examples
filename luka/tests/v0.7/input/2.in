@@ -1,0 +1,16 @@
+int fun fibo ( int x, bool b )
+
+int fun fibo ( int x, bool b ) {
+	int ans
+	if x < 2
+	then {
+		ans = x
+	} else {
+		ans = fibo(x-1, b) + fibo(x-2, b)
+	}
+	ret ans
+}
+
+int a
+a = fibo (10, true)
+

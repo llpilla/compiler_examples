@@ -1,0 +1,10 @@
+int i, j = 0 
+for , j < 10 , j = j + 2 {
+}
+for i = 0, i < 10   , i = i + 1 {
+int temp
+temp = j + i
+j = temp
+}
+j = j + 0
+

@@ -1,0 +1,14 @@
+bool fun f ()
+bool fun f () {
+ret false
+}
+if f() {
+  int a = 0
+  int fun f2 ( int x ) {
+          int a
+         a = x + 1
+         ret a
+  }
+  a = f2 ( a)
+}
+
