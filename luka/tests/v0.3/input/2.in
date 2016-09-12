@@ -1,0 +1,6 @@
+int i=0
+float f=0
+
+f = 12 + i - f
+i = [int] ([int] 12.3) / f
+

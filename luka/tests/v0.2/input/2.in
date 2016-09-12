@@ -1,0 +1,3 @@
+bool ab, cd = true
+ab = cd | ! true & 2 > -2
+
