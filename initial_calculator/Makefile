@@ -2,7 +2,7 @@
 FLEX=flex
 BISON=bison
 CC=clang++
-PARAM=-std=c++11 -fcxx-exceptions -Wno-deprecated-register -Wall
+PARAM=-std=c++11 -fcxx-exceptions -Wno-deprecated-register -Wall -Wno-unused-function -Wno-unneeded-internal-declaration
 OUTPUT=myparse
 
 $(OUTPUT): parser.h scanner.cpp main.cpp
