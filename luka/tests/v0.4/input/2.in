@@ -1,5 +1,5 @@
 float f
-if true 
+if true
 then {
 	if 2.3 <= 4
 	then {
@@ -7,8 +7,7 @@ then {
 		then {
 			f = 2.0
 		}
-	}
-	else {
+	} else {
 		f = 1.0
 	}
 }
