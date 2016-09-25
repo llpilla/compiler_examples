@@ -1,6 +1,6 @@
 int i, j
 if true
-then{
+then {
  int i
   if true
   then {
