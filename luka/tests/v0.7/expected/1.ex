@@ -1,4 +1,4 @@
-int fun: f (params: )
+bool fun: f (params: )
   ret false
 if: f[0 params]
 then:
