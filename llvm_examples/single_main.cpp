@@ -2,10 +2,10 @@
 #include "llvm/IR/IRBuilder.h"      //for Builder
 #include "llvm/IR/LLVMContext.h"    //for Context
 #include "llvm/IR/Module.h"         //for Module
+#include "llvm/IR/Verifier.h"       //for Verify function
 #include "llvm/ExecutionEngine/ExecutionEngine.h" //for JIT
-#include "llvm/ExecutionEngine/JIT.h"             //for JIT
-
-#include "llvm/Analysis/Verifier.h"
+#include "llvm/ExecutionEngine/GenericValue.h"    //for GenericValue
+#include "llvm/ExecutionEngine/MCJIT.h"
 
 #include <iostream>
 #include <vector>
@@ -15,7 +15,8 @@ int main() {
     llvm::Module *OurModule;
     llvm::IRBuilder<> Builder(Context);
 
-    OurModule = new llvm::Module("Our first intermediary code", Context);
+    std::unique_ptr<llvm::Module> Owner = llvm::make_unique<llvm::Module>("Our first intermediary code", Context);
+    OurModule = Owner.get();
 
     /***** Main: a function that gets no parameters and returns an integer *****/
     /* http://llvm.org/docs/doxygen/html/classllvm_1_1FunctionType.html
@@ -89,18 +90,21 @@ int main() {
     //ourMain->dump();
 
     /*** Now lets compute it with a just in time (JIT) compiler ***/
-    llvm::ExecutionEngine* OurExecutionEngine;
-    std::string Error;
-    LLVMInitializeNativeTarget(); //target = generates code for my processor
-    OurExecutionEngine = llvm::EngineBuilder(OurModule).setErrorStr(&Error).create();
-    if (!OurExecutionEngine) {
-        fprintf(stderr, "Could not create OurExecutionEngine: %s\n", Error.c_str());
-        exit(1);
-    }
+    //llvm::ExecutionEngine* OurExecutionEngine;
+    //std::string Error;
+    //LLVMInitializeNativeAsmPrinter();
+    //LLVMInitializeNativeAsmParser();
+    //LLVMInitializeNativeAsmPrinter(); //target = generates code for my processor
+    //OurExecutionEngine = llvm::EngineBuilder(std::move(Owner)).setErrorStr(&Error).setMCPU(llvm::sys::getHostCPUName()).create();
+    //if (!OurExecutionEngine) {
+    //    fprintf(stderr, "Could not create OurExecutionEngine: %s\n", Error.c_str());
+    //    exit(1);
+    //}
 
-    // JIT our main. It returns a function pointer.
-    void *mainPointer = OurExecutionEngine->getPointerToFunction(ourMain);
-    // Translate the pointer and run our main to get its results
-    int (*result)() = (int (*)())(intptr_t)mainPointer;
-    std::cout << "Result of our main = " << result() << std::endl;
+    //// JIT our main. It returns a function pointer.
+    //void *mainPointer = OurExecutionEngine->getPointerToFunction(ourMain);
+    //std::cout << "1\n";
+    //// Translate the pointer and run our main to get its results
+    //int (*result)() = (int (*)())(intptr_t)mainPointer;
+    //std::cout << "Result of our main = " << result() << std::endl;
 }

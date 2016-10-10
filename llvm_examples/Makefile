@@ -2,8 +2,8 @@
 FLEX=flex
 BISON=bison
 CC=clang++
-PARAM=-std=c++11 -fcxx-exceptions -Wno-deprecated-register -O3
-LLVM=`llvm-config --cppflags --ldflags --libs core jit native`
+PARAM=-std=c++11 -fcxx-exceptions -O3
+LLVM=`llvm-config --cxxflags --ldflags --system-libs --libs core native mcjit`
 OUTPUT=myparse
 
 all: main average

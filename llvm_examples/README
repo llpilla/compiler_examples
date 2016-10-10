@@ -1,0 +1,3 @@
+For other examples:
+wget https://llvm.org/svn/llvm-project/llvm/trunk/examples/Fibonacci/fibonacci.cpp
+wget https://llvm.org/svn/llvm-project/llvm/trunk/examples/HowToUseJIT/HowToUseJIT.cpp
