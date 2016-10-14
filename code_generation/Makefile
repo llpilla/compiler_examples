@@ -9,8 +9,8 @@ FLEX=flex
 BISON=bison
 CC=clang++
 PARAM=-std=c++11 -fcxx-exceptions -Wno-deprecated-register
-LLVMLIB=`llvm-config --ldflags --libs core native` 
-LLVMPARAM=`llvm-config --cppflags`
+LLVMLIB=`llvm-config --ldflags --system-libs --libs core native` 
+LLVMPARAM=`llvm-config --cxxflags`
 OUTPUT=mycompiler
 
 $(OUTPUT): $(OBJ)/printer.o $(OBJ)/codegen.o $(OBJ)/parser.o $(OBJ)/scanner.o $(OBJ)/main.o $(OBJ)/symtab.o $(OBJ)/llvm-utils.o
